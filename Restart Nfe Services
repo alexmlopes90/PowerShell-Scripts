@@ -1,0 +1,80 @@
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
+<# MENU #>
+
+Function MENU
+{
+$form = New-Object System.Windows.Forms.Form
+$form.Text = 'MENU'
+$form.Size = New-Object System.Drawing.Size(700,200)
+$Font = New-Object System.Drawing.Font("s New Roman",18,[System.Drawing.FontStyle]::Bold)
+
+# Font styles are: Regular, Bold, Italic, Underline, Strikeout
+
+$Form.Font = $Font
+$form.StartPosition = 'CenterScreen'
+
+$Button = New-Object System.Windows.Forms.Button
+$Button.Location = New-Object System.Drawing.Size(15,10)
+$Button.Size = New-Object System.Drawing.Size(650,60)
+$Button.Text = "Reiniciar Serviços NF-e"
+
+$Form.Controls.Add($Button)
+
+#Evento do botão
+$Button.Add_Click(
+        {    
+        RestartService
+        }
+    )
+
+$CancelButton = New-Object System.Windows.Forms.Button
+$CancelButton.Location = New-Object System.Drawing.Point(15,80)
+$CancelButton.Size = New-Object System.Drawing.Size(650,60)
+$CancelButton.Text = 'Fechar'
+$CancelButton.DialogResult = [System.Windows.Forms.DialogResult]::Cancel
+$form.CancelButton = $CancelButton
+$form.Controls.Add($CancelButton)
+
+$form.Topmost = $true
+$result = $form.ShowDialog()
+}
+
+<# Funções #>
+
+Function RestartService
+
+{
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 0
+Restart-Service	RMSNFeCancelarService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 10
+Restart-Service	RMSNFeConsultarCancNFEntradaService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 15
+Restart-Service	RMSNFeConsultarRetornoSEFAZService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 20
+Restart-Service	RMSNFeEnviarEmailService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 30
+Restart-Service	RMSNFeImportarService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 35
+Restart-Service	RMSNFeImprimirService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 40
+Restart-Service	RMSNFeInutilizarService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 50
+Restart-Service	RMSNFeLimparArquivosService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 55
+Restart-Service	RMSNFeLimparArquivosLogService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 60
+Restart-Service	RMSNFeProcessarXMLImportadosService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 70
+Restart-Service	RMSNFeTransmitirService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 80
+Restart-Service	RMSNFeReceberXMLService
+Write-Progress -Activity "Reiniciando os Serviços" -Status "Aguarde..." -PercentComplete 90
+Restart-Service	RMSNFeReceberXMLPorEmailService
+Write-Progress -Activity "Serviços reiniciados" -Status "Ok!" -PercentComplete 100
+}
+
+MENU
+
+
